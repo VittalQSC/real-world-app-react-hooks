@@ -1,23 +1,21 @@
 import React, { useEffect } from "react";
+import { Route, Switch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { createSelector } from 'reselect'
+import {
+  appLoadedSelect,
+  appNameSelect,
+  currentUserSelect
+} from '../selectors'
+
+import Header from './Header';
+import Home from './Home';
+
 import { APP_LOAD } from '../constants/actionTypes';
-
-const commonSelect = state => state.common;
-
-const appNameSelect = createSelector(
-  commonSelect,
-  common => common.appName
-);
-
-const appLoadedSelect = createSelector(
-  commonSelect,
-  common => common.appLoaded
-);
 
 const App = () => {
   const appName = useSelector(appNameSelect);
   const appLoaded = useSelector(appLoadedSelect);
+  const currentUser = useSelector(currentUserSelect);
   const dispatch = useDispatch();
   const onLoad = (payload, token) =>
     dispatch({ type: APP_LOAD, payload, token, skipTracking: true });
@@ -30,9 +28,19 @@ const App = () => {
 
     onLoad(token ? agent.Auth.current() : null, token);
   });
-  return appLoaded ? (<div className="App">
-    <h1> Hello, React World! </h1>
-  </div>) : (<div>APP NOT LOADED {appName}</div>);
+
+  if (appLoaded) {
+    return (<>
+      <Header
+        appName={appName}
+        currentUser={currentUser}
+      />
+      <Route exact path='/' component={Home}/>
+      
+    </>);
+  }
+
+  return (<Header appName={appName} currentUser={currentUser} />);
 }
 
 export default App;
