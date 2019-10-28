@@ -12,6 +12,7 @@ import {
 
 import Banner from './Banner';
 import Tags from './Tags';
+import MainView from './MainView'
 
 function Home() {
     const {
@@ -48,7 +49,7 @@ function Home() {
 
             <div className="container page">
                 <div className="row">
-                    {/* <MainView /> */}
+                    <MainView />
 
                     <div className="col-md-3">
                         <div className="sidebar">

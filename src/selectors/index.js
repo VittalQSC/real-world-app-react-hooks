@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 export const commonSelect = state => state.common;
+export const articleListSelect = state => state.articleList;
 export const homeSelect = state => state.home;
 
 export const tokenSelect = createSelector(
